@@ -31,13 +31,14 @@ function DrawRectangle(life: number[][]) {
 function LifeAround(X: number, Y: number) {
   let lifeAround = 0;
   //check zones autour de X et Y
-  // corner flemme de faire if if if
+
   if (
     X === 0 ||
     X === lifeTable.length - 1 ||
     Y === 0 ||
     Y === lifeTable.length - 1
   ) {
+    // à changé pour faire les coins
     lifeAround = 0;
   } else {
     if (lifeTable[X - 1][Y] === 1) {
@@ -63,8 +64,6 @@ function LifeAround(X: number, Y: number) {
     }
     if (lifeTable[X][Y - 1] === 1) {
       lifeAround += 1;
-    } else {
-      lifeAround = 0;
     }
     return lifeAround;
   }
@@ -73,12 +72,15 @@ function LifeAround(X: number, Y: number) {
 function UpdateTableOfLife() {
   for (let i = 0; i < lifeTable.length; i++) {
     for (let j = 0; j < lifeTable.length; j++) {
-      console.log(LifeAround(i, j));
       let lifeAround = LifeAround(i, j);
 
       if (lifeAround === 3) {
+        ctx.fillStyle = "red";
+        ctx.fillRect(i, j, rectWidth, rectHeight);
         lifeTable[i][j] = 1;
       } else {
+        ctx.fillStyle = "black";
+        ctx.fillRect(i, j, rectWidth, rectHeight);
         lifeTable[i][j] = 0;
       }
     }
@@ -87,8 +89,8 @@ function UpdateTableOfLife() {
 }
 
 function Animate() {
-  let lifeTable = UpdateTableOfLife();
-  DrawRectangle(lifeTable);
+  UpdateTableOfLife();
+  //  DrawRectangle(lifeTable);
   setInterval(Animate, 1000 / FPS);
 }
-Animate();
+setTimeout(Animate, 5000);
